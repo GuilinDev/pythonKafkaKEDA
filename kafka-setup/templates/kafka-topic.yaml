@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kafka-topic
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: kafka-topic
+        image: {{ .Values.kafka.image.repository }}:{{ .Values.kafka.image.tag }}
+        command:
+        - /bin/sh
+        - -c
+        - |
+          kafka-topics.sh --create --topic test-topic --bootstrap-server kafka:9092 --replication-factor 1 --partitions 1
+      restartPolicy: OnFailure

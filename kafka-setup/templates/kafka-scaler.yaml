@@ -1,0 +1,22 @@
+# kafka-scaler.yaml
+# Create a ScaledObject for KEDA to scale the Kafka producer based on the message count.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kafka-scaler
+  namespace: kafka
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: kafka-consumer
+  pollingInterval: 30
+  cooldownPeriod:  300
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+  - type: kafka
+    metadata:
+      bootstrapServers: kafka.kafka.svc.cluster.local:9092
+      topic: test-topic
+      consumerGroup: keda-consumer-group
+      lagThreshold: "10"
