@@ -33,3 +33,10 @@ spec:
           value: "PLAINTEXT://kafka:9092"
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: "zookeeper:2181"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
